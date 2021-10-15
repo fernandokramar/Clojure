@@ -1,1 +1,1 @@
-(def )
+(println "teste")
