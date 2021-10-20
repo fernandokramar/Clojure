@@ -5,7 +5,7 @@
 (def total-de-produtos 15) 
 ;#'user/total-de-produtos(user é espaço de memoria no qual estamos trabalhando(name espace))
 
-;impprime o valor simbolo 
+;imprime o valor simbolo 
 (println total-de-produtos)
 
 ;println pode receber mais que um parametro 
