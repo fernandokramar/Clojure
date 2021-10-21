@@ -13,3 +13,30 @@
       0)))
 
 
+;Solicitação do Cliente:
+;Valores abaixo de mil reais não tem imposto retido na fonte.
+;Acima disso pagam 10% de imposto
+
+(defn imposto-retido-fonte
+  [valor]
+  (if (< valor 1000)
+    0
+  (* valor 0.1)))
+
+;Solicitação do Cliente:
+;Valores abaixo de mil reais não tem imposto retido na fonte.
+;Acima disso pagam 10% de imposto
+
+;defn- = funcao privada
+(defn- esta-na-faixa-isencao?
+  [valor]
+  (< valor 1000))
+
+(defn imposto-retido-fonte
+  [valor]
+  (if (esta-na-faixa-isencao? valor)
+    0
+    (* valor 0.1)))
+
+;funcao de primeira ordem
+

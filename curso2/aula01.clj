@@ -181,5 +181,102 @@
 
 (defn imprime-some
   []
-  (println (some 2 2 )))
+  (println (some 2 2 ))) 
+
+;retorna o tipo do objeto
+(type 10 );Long
+;ou
+(class 10)
+
+(type 10.0);double
+
+(type (/ 10 3)) ;ratio
+
+(type (* 3 (/ 10 3)));bigint
+
+(type 10N);bigint
+
+(type 10N);bigDecimal
+
+;nome padrao para os arquivos é logic.clj
+
+(defn consulta-taxa-padrao-por-http
+  "imagina que este codigo faz uma resquisição http para obter a taxa-padrao"
+  []
+  0.20)
+
+(defn imposto-retido
+  "Se o salario de 1000 reais nao tem imposto. Acima ou igual a 1000 deve aplicar"
+   [taxa-padrao salario]
+   (if (< salario 1000)
+   0
+   (* salario taxa-padrao)))
+
+  (imposto-retido (consulta-taxa-padrao-por-http) 10) 
+    ; ou 
+  (imposto-retido 0.20 10) 
+
+ (defn imposto-retido
+  "Se o salario de 1000 reais nao tem imposto. Acima ou igual a 1000 deve aplicar"
+  [consulta-taxa-padrao salario]
+  (if (< salario 1000)
+  0
+  (* salario (consulta-taxa-padrao)))
+        
+(defn consulta-taxa-padrao-fixa
+  []
+  0.10)
+
+(imposto-retido consulta-taxa-padrao-por-http 10) 
+(imposto-retido consulta-taxa-padrao-fixa 10) 
+
+(defn minha-taxa-padrao
+  []
+  consulta-taxa-padrao-fixa)
+
+(minha-taxa-padrao)
+
+(imposto-retido (minha-taxa-padrao) 2000)
+
+
+
+(defn escolhe-consulta-taxa-padrao
+  [ambiente]
+  (if (= ambiente :teste)
+  consulta-taxa-padrao-fixa
+  consulta-taxa-padrao-por-http))
+
+(imposto-retido(escolhe-consulta-taxa-padrao :producao) 1000)
+
+;funcao anonima (sem nome)
+((fn [x] (* 2 x)))
+;ou
+(#(* 2 %) 5)
+
+(#(+ % %) 2)
+
+((fn [x y] (+ x y)) 6 7)
+
+(#(+ %1 %2) 8 9)
+
+;sempre retorna o valor do constantly 
+((constantly 0.2) 5 3 10)
+
+
+(imposto-retido (fn [] 0.7) 2000)
+
+(imposto-retido (constantly 0.7) 2000)
+
+;____________________________________________________________________________________________
+
+;quantidade de estudante do 5 ano
+
+;Imagina que tenhamos um vetor de numeros onde cada numero representa o ano que o estudante está.
+;exemplo : [5 6 6] 
+;Temos 1 estudante do quinto ano e dois no sexto
+
+;Desafio 1: crie uma funcao que recebe este vetor como entrada 
+;retorna a quantidade de estudante que estão no quinto ano 
+
+
 
