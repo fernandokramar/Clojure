@@ -251,6 +251,7 @@
 ;funcao anonima (sem nome)
 ((fn [x] (* 2 x)))
 ;ou
+; % = parametro
 (#(* 2 %) 5)
 
 (#(+ % %) 2)
@@ -277,6 +278,104 @@
 
 ;Desafio 1: crie uma funcao que recebe este vetor como entrada 
 ;retorna a quantidade de estudante que estão no quinto ano 
+
+;filter recebe dois parametros primeiro uma funcao em seguida o segundo parametro 
+;valor que quero fazer a transformacao, valor a ser filtrado  
+
+(defn esta-no-quinto-ano?
+  [ano]
+  (= ano 5))      ; (if (= ano 5)      ;Ou sem if  (= ano 5)
+                  ;  true 
+                  ;  false))
+
+(defn quantidade-estudantes-no-quinto-ano
+  [estudantes]
+  (count (filter esta-no-quinto-ano? estudantes)))
+
+(quantidade-estudantes-no-quinto-ano [5 6 7 5]);sem o conunt retorna (5 5)
+
+(quantidade-estudantes-no-quinto-ano [5 6 7 5]);com o conunt retorna 2
+
+;outro modo de fazer:
+;utilizando funcao anonima
+
+(defn quantidade-estudantes-no-quinto-ano
+  [estudantes]
+  (count (filter #(= 5 %) estudantes)))  ;ou (count (filter (fn [ano] (= 5 ano)) estudantes)))
+
+;Desafio 2: crie uma funcao que recebe um vetor de idades e retorna a soma.
+; ex: (soma-das-idades [5 10 5]); deve retornar 20
+
+;reduse recebe dois parametros no qual o primeiro vai fazer  a acao entre os pares(exemoplo soma todos os valores) 
+; aceita o valor 0 pu vazio
+(defn soma-das-idades
+  [idades]
+  (reduce + idades))
+
+(soma-das-idades [5 10 5]);retorna 20
+
+
+;Desafio 3: crie uma funcao que recebe um vetor e retorne o tamanho dos nomes 
+;EX: (tamanho-medio-dos-nomes ["marcio" "joao"]); deve retornar 5
+;(map count nomes) retorna uma lista com seguinte valor (6 4)
+
+(defn tamanho-medio-dos-nomes
+  [nomes]
+  (/ (reduce + (map count nomes)) (count nomes)))
+
+(tamanho-medio-dos-nomes ["marcio" "joao"])
+
+{} ;mapa vazio
+
+;carrinho de compras
+(defn compras 
+  []
+{:tomate {:quantidade 2 :preco 5}
+ :arroz {:quantidade 1 :preco 4}
+ :feijao {:quantidade 2 :preco 10}})
+
+(get (compras) :tomate); retorna {:quantidade 2, :preco 5}
+;ou
+((compras) :tomate); retorna {:quantidade 2, :preco 5} /OBS não retorna NULL/NIL
+;ou 
+(:tomate (compras)); retorna {:quantidade 2, :preco 5}
+
+
+(:preco (:tomate (compras)));retorna 5
+
+(:quantidade (:tomate (compras)));retorna 2
+
+(:batata (compras) {:quantidade 0 :preco 0}); caso não queira que retorne nulo o terceiro parametro dentro das{}
+
+
+(conj (compras) {:alface {:quantidade 2 :preco 8} }); adiciona um valor no mapa / junta dois mapas(cria um novo e adiciona)
+
+(assoc (compras)  :alface {:quantidade 2 :preco 8 });assoc é asociar um novo valor a chave/ ou edita o valor atual da chave  
+
+(dissoc (compras) :tomate);dissoc desasocia uma chave / remove uma chave de valor 
+
+{:nome "Marcio frayzer" :idade 39}
+
+(inc 39); retorna o valor 40 (incrementa 1)
+
+(update {:nome "Marcio Frazyzer", :idade 39} :idade inc);primeiro parametro a chave, segundo parametro o campo atualizado, terceiro pode ser um valor ou funcao
+;retorna {:nome "Marcio Frazyzer", :idade 40}
+
+;carrinho de compras
+(defn compras 
+  []
+{:tomate {:quantidade 2 :preco 5}
+ :arroz {:quantidade 1 :preco 4}
+ :feijao {:quantidade 2 :preco 10}})
+
+(update-in (compras) [:tomate :preco] inc); update-in atualiza um mapa dentro de outro apenas prencheno o vetor com a ordem dos mapas 
+;retorna 
+;{:tomate {:quantidade 2 :preco 5}
+;;arroz {:quantidade 1 :preco 4}
+;:feijao {:quantidade 2 :preco 10}}
+
+(update-in (compras) [:tomate :preco] * 2); retorna :tomate {:quantidade 2 :preco 10}
+
 
 
 
