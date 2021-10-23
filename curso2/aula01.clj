@@ -378,4 +378,90 @@
 
 
 
+;_____________________________________________________________________________________________________
+  ;Desafio: precisamos criar uma função que, dada um conjunto (vetor)
 
+  ; de disciplinas e o semestre da discente, deve:
+  ;filtrar a lista para exibir disciplinas restantes (que sejam do semestre atual ou superior)
+  ;transformar nome da disciplina para maiúsculo e descartar demais informações
+  ;- criar uma String concatenando o nome de todas as disciplinas filtradas
+  ;; Exemplo de entrada:
+  ;;[{:nome "Estrutura de dados" semestre 2} 
+  ;{:nome "Algoritmos" semestre 1}
+  ;;{:nome "Inteligêncio Artificial" semestre 3}] 2
+  ; Saída esperada: "ESTRUTURA DE DADOS, INTELIGENCIA ARTIFICIAL"
+
+(defn disciplinas
+  []
+  [{:nome "Estrutura de dados" semestre 2} 
+   {:nome "Algoritmos" semestre 1}
+   {:nome "Inteligêncio Artificial" semestre 3}])
+
+(:semestre {:nome "estrutura de dados" :semestre 2})
+
+  (defn nomes-disciplinas-restantes
+    [disciplinas semestre-atual]
+    (filter #(>= (:semestre %) semestre-atual)disciplinas))
+
+  (nomes-disciplinas-restantes (disciplinas) 1); retorna todos as disciplinas (igual ou maior que 1)
+
+  (nomes-disciplinas-restantes (disciplinas) 2); retorna algumas disciplinas (igual ou maior que 2)
+
+
+ (:semestre {:nome "estrutura de dados" :semestre 2})
+
+ (defn nomes-disciplinas-restantes
+  [disciplinas semestre-atual]
+  (map (filter #(>= (:semestre %) semestre-atual) disciplinas)))
+
+  (nomes-disciplinas-restantes (disciplinas) 2);retorna algumas disciplinas (igual ou maior que 2)(somente o nome)
+
+(clojure.string/upper-case "Estrutura de dados"); retorna a string em maiusculo (tem que importar )
+
+
+(defn nomes-disciplinas-restantes
+  [disciplinas semestre-atual]
+  (map clojure.string/upper-case (map (filter #(>= (:semestre %) semestre-atual) disciplinas))))
+
+  (nomes-disciplinas-restantes (disciplinas) 2);retorna uma lista de disciplinas (igual ou maior que 2)(somente os nome e em maiusculo)
+
+(clojure.string/join ", "["ESTRUTURA DE DADOS" "INTELIGENCIA ARTIFICIAL"]);join concatena(junta) os valores da lista e coloca um valor entre eles (tem que importar) 
+;retorna "ESTRUTURA DE DADOS, INTELIGENCIA ARTIFICIAL"
+
+;exemplo de importacao todas as funcoes 
+;(ns selft-testing-code.core
+; (:require [clojure.string :refer :all ]))
+;
+;exemplo de importacao todas apenas duas funcoes(upper-case e join) pode remover o caminho do codigo
+;(ns selft-testing-code.core
+; (:require [clojure.string :refer [upper-case join]]))
+
+(defn nomes-disciplinas-restantes
+  [disciplinas semestre-atual]
+  (clojure.string/join ", " (map clojure.string/upper-case (map (filter #(>= (:semestre %) semestre-atual) disciplinas)))))
+
+;____________________________________________________________________________________________
+; REFATORACAO
+
+;Threading last
+;->> = Threading é simplificacao de quando tem uma funcao dentro de uma funcao, coloca dentro do Threading em lista cada funcao 
+; e sequenciamente o resuntado passa como paramentro para o proxima funcao 
+(defn nomes-disciplinas-restantes
+  [disciplinas semestre-atual]
+  (->> disciplinas 
+    (filter #(>= (:semestre %) semestre-atual))
+    (map :nome)
+    (map upper-case)
+    (join ", ")))
+
+;Threading first
+;-> 
+
+;antes 
+(defn transform[person]
+  (update (assoc person :hair-color :gray) :age inc))
+;refatorado
+(defn transform [person]
+  (-> person 
+    (assoc :hair-color :gray )
+    (update :age inc)))
